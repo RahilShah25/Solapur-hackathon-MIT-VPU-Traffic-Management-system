@@ -69,7 +69,10 @@ export default function ParkingScannerPage() {
             // 2. Initialize instance if null
             if (!scannerRef.current) {
                 log("Creating new Html5Qrcode instance...");
-                scannerRef.current = new Html5Qrcode("reader");
+                scannerRef.current = new Html5Qrcode("reader", {
+                    formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
+                    verbose: false
+                });
             }
 
             // 3. Start scanning
@@ -79,8 +82,7 @@ export default function ParkingScannerPage() {
                 {
                     fps: 10,
                     qrbox: { width: 250, height: 250 },
-                    aspectRatio: 1.0,
-                    formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE]
+                    aspectRatio: 1.0
                 },
                 (decodedText, decodedResult) => {
                     // Success callback
