@@ -40,8 +40,15 @@ export default function ParkingScannerPage() {
             const scanner = scannerRef.current;
             if (scanner && scanner.isScanning) {
                 // We cannot await here, but we can trigger the stop
-                scanner.stop().catch(err => console.warn("Cleanup stop warning:", err))
-                    .finally(() => scanner.clear().catch(() => { }));
+                scanner.stop()
+                    .catch(err => console.warn("Cleanup stop warning:", err))
+                    .finally(async () => {
+                        try {
+                            await scanner.clear();
+                        } catch (e) {
+                            // ignore clear errors
+                        }
+                    });
             }
         }
     }, [])
